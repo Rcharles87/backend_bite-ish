@@ -11,3 +11,12 @@ CREATE TABLE users (
     password TEXT NOT NULL,
     phone_num TEXT NOT NULL
 );
+
+DROP TABLE IF EXISTS carts;
+
+CREATE TABLE carts (
+    id SERIAL PRIMARY KEY,
+    is_active BOOLEAN,
+    user_id INTEGER REFERENCES users (id)
+    ON DELETE CASCADE
+);
