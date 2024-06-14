@@ -7,6 +7,12 @@ const {
   deleteUser,
 } = require("../queries/usersQueries.js");
 
+const {
+  validateIdMiddleware,
+  validateUserMiddleware,
+  validateUserExistsMiddleware,
+} = require("../middleware/middleware.js");
+
 const usersController = Router();
 
 usersController.get("/", async (request, response) => {
@@ -18,7 +24,7 @@ usersController.get("/", async (request, response) => {
   }
 });
 
-usersController.get("/:id", async (request, response) => {
+usersController.get("/:id", validateIdMiddleware, async (request, response) => {
   try {
     const { id } = request.params;
     const user = await getUserById(Number(id));
@@ -33,7 +39,7 @@ usersController.get("/:id", async (request, response) => {
   }
 });
 
-usersController.post("/", async (request, response) => {
+usersController.post("/", validateUserMiddleware, async (request, response) => {
   try {
     const user = request.body;
     const persistedUser = await createUser(user);
@@ -43,7 +49,7 @@ usersController.post("/", async (request, response) => {
   }
 });
 
-usersController.put("/:id", async (request, response) => {
+usersController.put("/:id", validateIdMiddleware, validateUserMiddleware, async (request, response) => {
   try {
     const { id } = request.params;
     const user = request.body;
@@ -60,7 +66,7 @@ usersController.put("/:id", async (request, response) => {
   }
 });
 
-usersController.delete("/:id", async (request, response) => {
+usersController.delete("/:id", validateIdMiddleware, async (request, response) => {
   try {
     const { id } = request.params;
     const userFromDb = await getUserById(Number(id));
