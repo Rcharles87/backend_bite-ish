@@ -2,11 +2,11 @@ const { response } = require("express");
 const getUserById = require("../queries/usersQueries");
 
 const USER_FIELDS = [
-  "first_name",
-  "last_name",
-  "user_name",
+  "firstName",
+  "lastName",
+  "userName",
   "password",
-  "phone_num",
+  "phoneNum",
 ];
 
 const validateIdMiddleware = (request, response, next) => {
